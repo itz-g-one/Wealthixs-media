@@ -27,12 +27,12 @@ export default function Navbar() {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
         style={{
-          background: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.0)",
-          backdropFilter: scrolled ? "blur(20px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(0,0,0,0.06)" : "1px solid transparent",
+          background: scrolled ? "var(--color-white)" : "transparent",
+          borderBottom: scrolled ? "var(--border-thick)" : "var(--border-thick)",
+          borderColor: scrolled ? "var(--color-black)" : "transparent",
         }}
       >
         <div className="container-main">
@@ -50,15 +50,16 @@ export default function Navbar() {
                 style={{
                   width: 36,
                   height: 36,
-                  background: "var(--gradient-gold)",
-                  borderRadius: "var(--radius-sm)",
+                  background: "var(--accent-yellow)",
+                  border: "var(--border-thick)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   fontFamily: "var(--font-display)",
-                  fontWeight: 700,
+                  fontWeight: 800,
                   fontSize: "1.1rem",
-                  color: "#fff",
+                  color: "var(--color-black)",
+                  boxShadow: "2px 2px 0px 0px #050505",
                 }}
               >
                 W
@@ -66,13 +67,13 @@ export default function Navbar() {
               <span
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontWeight: 600,
+                  fontWeight: 700,
                   fontSize: "1.35rem",
                   color: "var(--text-primary)",
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "-0.02em",
                 }}
               >
-                Wealthixs Media
+                Wealthixs
               </span>
             </a>
 
@@ -86,20 +87,14 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
-                    fontWeight: 400,
-                    color: "var(--text-secondary)",
+                    fontFamily: "var(--font-display)",
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
                     textDecoration: "none",
-                    transition: "color 0.2s ease",
                     position: "relative",
                   }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "var(--text-primary)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "var(--text-secondary)")
-                  }
+                  className="hover:underline hover:decoration-2"
                 >
                   {link.label}
                 </a>
@@ -109,11 +104,11 @@ export default function Navbar() {
             {/* CTA Button */}
             <a
               href="#contact"
-              className="hidden md:inline-flex btn-gold"
-              style={{ padding: "10px 24px", fontSize: "0.85rem" }}
+              className="hidden md:inline-flex btn-neo"
+              style={{ padding: "8px 24px", fontSize: "0.85rem" }}
             >
-              Book a Call
-              <ArrowRight size={14} />
+              Book Call
+              <ArrowRight size={16} strokeWidth={2.5} />
             </a>
 
             {/* Mobile Hamburger */}
@@ -121,15 +116,16 @@ export default function Navbar() {
               onClick={() => setMenuOpen(!menuOpen)}
               className="md:hidden"
               style={{
-                background: "none",
-                border: "none",
+                background: "var(--color-white)",
+                border: "var(--border-thick)",
                 cursor: "pointer",
                 color: "var(--text-primary)",
-                padding: 8,
+                padding: 6,
+                boxShadow: "2px 2px 0px #000"
               }}
               aria-label="Toggle menu"
             >
-              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+              {menuOpen ? <X size={20} strokeWidth={3} /> : <Menu size={20} strokeWidth={3} />}
             </button>
           </nav>
         </div>
@@ -139,34 +135,35 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 md:hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 md:hidden flex items-center justify-center"
             style={{
-              background: "rgba(255,255,255,0.98)",
-              backdropFilter: "blur(20px)",
-              paddingTop: "80px",
+              background: "var(--color-white)",
+              padding: "var(--space-6)"
             }}
           >
-            <div className="container-main flex flex-col" style={{ gap: "var(--space-2)" }}>
+            <div 
+               className="w-full h-full flex flex-col justify-center items-center bg-graph-paper" 
+               style={{ border: "var(--border-thick)", borderRadius: "var(--radius-neo)" }}
+            >
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                   style={{
                     fontFamily: "var(--font-display)",
                     fontSize: "2rem",
-                    fontWeight: 500,
+                    fontWeight: 700,
                     color: "var(--text-primary)",
                     textDecoration: "none",
-                    padding: "var(--space-4) 0",
-                    borderBottom: "1px solid var(--border-subtle)",
+                    padding: "var(--space-4)",
                   }}
                 >
                   {link.label}
@@ -175,10 +172,10 @@ export default function Navbar() {
               <a
                 href="#contact"
                 onClick={() => setMenuOpen(false)}
-                className="btn-gold"
-                style={{ marginTop: "var(--space-8)", textAlign: "center" }}
+                className="btn-neo"
+                style={{ marginTop: "var(--space-8)" }}
               >
-                Book a Call <ArrowRight size={16} />
+                Book a Call <ArrowRight size={20} strokeWidth={2.5} />
               </a>
             </div>
           </motion.div>

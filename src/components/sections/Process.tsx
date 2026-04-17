@@ -7,24 +7,24 @@ import { Upload, Cpu, MessageSquare, ArrowRight } from "lucide-react";
 const steps = [
   {
     icon: Upload,
-    label: "FEED IT",
-    title: "Connect your data sources.",
-    description:
-      "Upload your PDFs, reports, notes, links, meeting transcripts, SOPs. Any format. We handle the ingestion.",
+    color: "var(--accent-pink)",
+    label: "Step 1",
+    title: "Feed It",
+    description: "Upload your PDFs, reports, notes, meeting transcripts, SOPs. Any format. We handle the ingestion.",
   },
   {
     icon: Cpu,
-    label: "BUILD IT",
-    title: "Our AI constructs your custom base.",
-    description:
-      "AI reads every source, extracts concepts, creates 10–15 interconnected wiki pages per document, builds backlinks, and flags contradictions.",
+    color: "var(--accent-blue)",
+    label: "Step 2",
+    title: "We Build It",
+    description: "AI reads every source, extracts concepts, creates cross-linked wiki pages, builds backlinks, and flags contradictions.",
   },
   {
     icon: MessageSquare,
-    label: "QUERY IT",
-    title: "Ask any question, get instant answers.",
-    description:
-      "Get precise answers citing your actual documents — not generic AI guesses. Then the system keeps updating every month.",
+    color: "var(--accent-green)",
+    label: "Step 3",
+    title: "Query It",
+    description: "Ask any question, get instant precise answers citing your actual documents — not generic AI guesses.",
   },
 ];
 
@@ -37,44 +37,28 @@ export default function Process() {
       id="process"
       ref={ref}
       className="section-padding"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--color-white)" }}
     >
       <div className="container-main">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           style={{ textAlign: "center", marginBottom: "var(--space-16)" }}
         >
-          <span
-            className="section-label"
-            style={{ justifyContent: "center" }}
-          >
-            Our Approach
-          </span>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(2rem, 4vw, 3rem)",
-              fontWeight: 600,
-              color: "var(--text-primary)",
-              marginBottom: "var(--space-4)",
-            }}
-          >
-            Process & Pricing
+          <div style={{
+             display: "inline-block", padding: "6px 12px", border: "var(--border-thick)", 
+             background: "var(--accent-yellow)", borderRadius: "var(--radius-neo)",
+             fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "0.85rem",
+             marginBottom: "var(--space-4)", boxShadow: "var(--shadow-solid-hover)",
+             transform: "rotate(2deg)"
+          }}>
+             How it works
+          </div>
+          <h2 style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)" }}>
+            Three steps to clarity.
           </h2>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "1.05rem",
-              color: "var(--text-secondary)",
-              maxWidth: "500px",
-              margin: "0 auto",
-            }}
-          >
-            From data input to actionable insights in three simple steps.
-          </p>
         </motion.div>
 
         {/* 3-step process */}
@@ -91,11 +75,11 @@ export default function Process() {
             className="hidden md:block"
             style={{
               position: "absolute",
-              top: "64px",
+              top: "40px",
               left: "16.5%",
               right: "16.5%",
-              height: "1px",
-              borderTop: "2px dashed rgba(201,168,76,0.3)",
+              height: "4px",
+              background: "var(--color-black)",
               zIndex: 0,
             }}
           />
@@ -105,89 +89,43 @@ export default function Process() {
               key={i}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.6,
-                delay: i * 0.15,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              style={{
-                textAlign: "center",
-                position: "relative",
-                zIndex: 1,
-              }}
+              transition={{ duration: 0.5, delay: i * 0.15, ease: "easeOut" }}
+              style={{ textAlign: "center", position: "relative", zIndex: 1 }}
             >
               {/* Icon circle */}
               <div
                 style={{
-                  width: 80,
-                  height: 80,
-                  borderRadius: "50%",
-                  background: "var(--bg-primary)",
-                  border: "2px solid var(--border-card)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "0 auto var(--space-6)",
-                  transition: "border-color 0.3s",
+                  width: 80, height: 80, borderRadius: "50%", background: step.color,
+                  border: "var(--border-thick)", display: "flex", alignItems: "center",
+                  justifyContent: "center", margin: "0 auto var(--space-6)",
+                  boxShadow: "var(--shadow-solid)",
                 }}
               >
-                <step.icon
-                  size={32}
-                  style={{ color: "var(--brand-gold)" }}
-                />
+                <step.icon size={32} color="#050505" strokeWidth={2.5} />
               </div>
 
-              <h3
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.15em",
-                  color: "var(--brand-gold)",
-                  marginBottom: "var(--space-3)",
-                }}
-              >
+              <div style={{
+                 display: "inline-block", padding: "4px 12px", background: "var(--color-black)",
+                 color: "white", borderRadius: "100px", fontFamily: "var(--font-display)",
+                 fontWeight: 700, fontSize: "0.75rem", marginBottom: "var(--space-4)"
+              }}>
                 {step.label}
+              </div>
+
+              <h3 style={{ fontSize: "1.75rem", marginBottom: "var(--space-3)" }}>
+                {step.title}
               </h3>
-              <p
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "0.9rem",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.6,
-                  maxWidth: "280px",
-                  margin: "0 auto",
-                }}
-              >
+              <p style={{ fontWeight: 500, margin: "0 auto" }}>
                 {step.description}
               </p>
             </motion.div>
           ))}
         </div>
-
-        {/* CTA under process */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          style={{
-            textAlign: "center",
-            marginTop: "var(--space-16)",
-          }}
-        >
-          <a href="#pricing" className="btn-secondary">
-            View Our Packages <ArrowRight size={16} />
-          </a>
-        </motion.div>
       </div>
 
-      {/* Responsive override */}
       <style jsx>{`
         @media (max-width: 768px) {
-          .grid {
-            grid-template-columns: 1fr !important;
-          }
+          .grid { grid-template-columns: 1fr !important; gap: var(--space-12) !important; }
         }
       `}</style>
     </section>
