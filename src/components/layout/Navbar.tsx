@@ -1,94 +1,189 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ArrowRight } from "lucide-react";
+
+const navLinks = [
+  { label: "Services", href: "#services" },
+  { label: "Our Approach", href: "#process" },
+  { label: "Pricing", href: "#pricing" },
+  { label: "FAQ", href: "#faq" },
+  { label: "About", href: "#about" },
+];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-[#0A0A0F]/95 backdrop-blur-md shadow-md border-b border-[rgba(242,240,236,0.08)] py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
-      <div className="container mx-auto px-6 max-w-[1200px] flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-semibold font-cormorant text-[#F2F0EC]">
-          Wealthixs
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link href="#how-it-works" className="text-sm font-dm-sans text-[#9B9690] hover:text-[#F2F0EC] transition-colors relative group">
-            How It Works
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#C9A84C] transition-all group-hover:w-full"></span>
-          </Link>
-          <Link href="#services" className="text-sm font-dm-sans text-[#9B9690] hover:text-[#F2F0EC] transition-colors relative group">
-            Services
-          </Link>
-          <Link href="#pricing" className="text-sm font-dm-sans text-[#9B9690] hover:text-[#F2F0EC] transition-colors relative group">
-            Pricing
-          </Link>
-          <Link href="#faq" className="text-sm font-dm-sans text-[#9B9690] hover:text-[#F2F0EC] transition-colors relative group">
-            FAQ
-          </Link>
-          
-          <Link
-            href="#book-call"
-            className="btn-primary hover:-translate-y-1 transition-transform shadow-[0_8px_32px_rgba(201,168,76,0.15)] flex items-center gap-2"
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.0)",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(0,0,0,0.06)" : "1px solid transparent",
+        }}
+      >
+        <div className="container-main">
+          <nav
+            className="flex items-center justify-between"
+            style={{ height: "72px" }}
           >
-            <span className="bg-gradient-to-r from-[#C9A84C] to-[#E8C96A] text-[#0A0A0F] font-medium font-dm-sans py-2 px-5 rounded-md text-sm tracking-wide">
-              Book a Call &rarr;
-            </span>
-          </Link>
+            {/* Logo */}
+            <a
+              href="#"
+              className="flex items-center gap-2 no-underline"
+              style={{ textDecoration: "none" }}
+            >
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  background: "var(--gradient-gold)",
+                  borderRadius: "var(--radius-sm)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  fontSize: "1.1rem",
+                  color: "#fff",
+                }}
+              >
+                W
+              </div>
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 600,
+                  fontSize: "1.35rem",
+                  color: "var(--text-primary)",
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                Wealthixs Media
+              </span>
+            </a>
+
+            {/* Desktop Links */}
+            <div
+              className="hidden md:flex items-center"
+              style={{ gap: "var(--space-8)" }}
+            >
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.875rem",
+                    fontWeight: 400,
+                    color: "var(--text-secondary)",
+                    textDecoration: "none",
+                    transition: "color 0.2s ease",
+                    position: "relative",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.color = "var(--text-primary)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.color = "var(--text-secondary)")
+                  }
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+
+            {/* CTA Button */}
+            <a
+              href="#contact"
+              className="hidden md:inline-flex btn-gold"
+              style={{ padding: "10px 24px", fontSize: "0.85rem" }}
+            >
+              Book a Call
+              <ArrowRight size={14} />
+            </a>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden"
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "var(--text-primary)",
+                padding: 8,
+              }}
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </nav>
         </div>
+      </motion.header>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-[#F2F0EC]"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Nav */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-[#111118] border-b border-[rgba(242,240,236,0.08)] py-4 px-6 flex flex-col gap-4 shadow-xl">
-          <Link href="#how-it-works" className="text-[#F2F0EC] text-lg font-dm-sans" onClick={() => setMobileMenuOpen(false)}>
-            How It Works
-          </Link>
-          <Link href="#services" className="text-[#F2F0EC] text-lg font-dm-sans" onClick={() => setMobileMenuOpen(false)}>
-            Services
-          </Link>
-          <Link href="#pricing" className="text-[#F2F0EC] text-lg font-dm-sans" onClick={() => setMobileMenuOpen(false)}>
-            Pricing
-          </Link>
-          <Link href="#faq" className="text-[#F2F0EC] text-lg font-dm-sans" onClick={() => setMobileMenuOpen(false)}>
-            FAQ
-          </Link>
-          <Link
-            href="#book-call"
-            className="w-full text-center bg-gradient-to-r from-[#C9A84C] to-[#E8C96A] text-[#0A0A0F] font-medium font-dm-sans py-3 rounded-md text-base mt-2"
-            onClick={() => setMobileMenuOpen(false)}
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 md:hidden"
+            style={{
+              background: "rgba(255,255,255,0.98)",
+              backdropFilter: "blur(20px)",
+              paddingTop: "80px",
+            }}
           >
-            Book a Call &rarr;
-          </Link>
-        </div>
-      )}
-    </nav>
+            <div className="container-main flex flex-col" style={{ gap: "var(--space-2)" }}>
+              {navLinks.map((link, i) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "2rem",
+                    fontWeight: 500,
+                    color: "var(--text-primary)",
+                    textDecoration: "none",
+                    padding: "var(--space-4) 0",
+                    borderBottom: "1px solid var(--border-subtle)",
+                  }}
+                >
+                  {link.label}
+                </motion.a>
+              ))}
+              <a
+                href="#contact"
+                onClick={() => setMenuOpen(false)}
+                className="btn-gold"
+                style={{ marginTop: "var(--space-8)", textAlign: "center" }}
+              >
+                Book a Call <ArrowRight size={16} />
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

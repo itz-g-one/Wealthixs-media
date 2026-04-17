@@ -1,57 +1,136 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function FinalCTA() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section id="book-call" className="py-32 bg-[#111118] relative overflow-hidden">
-      {/* Dynamic Animated background mesh */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vw] h-[120vw] max-w-[1000px] max-h-[1000px] bg-[radial-gradient(circle,rgba(201,168,76,0.15)_0%,transparent_60%)] animate-[spin_30s_linear_infinite]" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5" />
-      </div>
+    <section
+      id="contact"
+      ref={ref}
+      style={{
+        padding: "var(--space-16) var(--space-6)",
+      }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 30, scale: 0.98 }}
+        animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="container-main"
+        style={{
+          maxWidth: "900px",
+          background: "var(--bg-dark)",
+          borderRadius: "var(--radius-xl)",
+          padding: "var(--space-20) var(--space-12)",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        {/* Background decoration */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-50%",
+            left: "-20%",
+            width: "140%",
+            height: "200%",
+            background:
+              "radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 60%)",
+            pointerEvents: "none",
+          }}
+        />
 
-      <div className="container mx-auto px-6 max-w-[800px] relative z-10 text-center">
-        <motion.h2 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-cormorant text-5xl sm:text-6xl md:text-7xl font-semibold mb-6 text-transparent bg-clip-text bg-gradient-to-br from-[#F2F0EC] to-[#9B9690]"
-        >
-          Stop losing knowledge. <br />
-          <span className="text-[#C9A84C]">Start compounding it.</span>
-        </motion.h2>
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Sparkles
+              size={32}
+              style={{
+                color: "var(--brand-gold)",
+                margin: "0 auto var(--space-6)",
+              }}
+            />
+          </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-lg font-dm-sans text-[#9B9690] mb-12 max-w-2xl mx-auto"
-        >
-          Book a free 30-minute discovery call. We&apos;ll audit your current knowledge situation and tell you exactly what we&apos;d build for you — no sales pressure.
-        </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2rem, 5vw, 3rem)",
+              fontWeight: 700,
+              color: "var(--text-inverse)",
+              lineHeight: 1.15,
+              marginBottom: "var(--space-4)",
+            }}
+          >
+            Unlock Your Team&apos;s Collective
+            <br />
+            Intelligence.{" "}
+            <span style={{ color: "var(--brand-gold)" }}>Start Today.</span>
+          </motion.h2>
 
-        <motion.div
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <Link href="https://cal.com/wealthixs" target="_blank" rel="noopener noreferrer">
-            <button className="bg-gradient-to-r from-[#C9A84C] to-[#E8C96A] text-[#0A0A0F] font-dm-sans font-medium px-10 py-5 rounded-md text-[16px] tracking-wide shadow-[0_0_40px_rgba(201,168,76,0.2)] hover:shadow-[0_0_60px_rgba(201,168,76,0.4)] hover:-translate-y-1 transition-all duration-300 flex items-center gap-3 mx-auto group">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "1.05rem",
+              color: "rgba(255,255,255,0.6)",
+              maxWidth: "500px",
+              margin: "0 auto var(--space-10)",
+              lineHeight: 1.7,
+            }}
+          >
+            Transform your scattered knowledge into a powerful, AI-driven asset
+            with Wealthixs Media.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <a
+              href="https://cal.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-gold btn-gold-pulse"
+              style={{
+                fontSize: "1rem",
+                padding: "18px 40px",
+              }}
+            >
               Book Your Free Discovery Call
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </Link>
-          <p className="text-sm font-dm-sans text-[#5C5A56] mt-6">
-            Free 30-minute call. No commitment. Response within 24 hours.
-          </p>
-        </motion.div>
-      </div>
+              <ArrowRight size={18} />
+            </a>
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.7 }}
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "0.8125rem",
+              color: "rgba(255,255,255,0.35)",
+              marginTop: "var(--space-6)",
+            }}
+          >
+            Free 30-minute call · No commitment · Response within 24 hours
+          </motion.p>
+        </div>
+      </motion.div>
     </section>
   );
 }

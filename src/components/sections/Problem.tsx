@@ -1,94 +1,181 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { FolderGit2, SearchX, Clock, DatabaseZap, FileWarning } from "lucide-react";
+import { motion, Variants } from "framer-motion";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+import {
+  Layers,
+  Brain,
+  Search,
+  TrendingUp,
+} from "lucide-react";
+
+const painPoints = [
+  {
+    icon: Layers,
+    title: "Siloed Information",
+    description:
+      "Valuable insights are trapped in individual departments and scattered systems, leading to duplication and inefficiency. 80% of enterprise data is inaccessible.",
+  },
+  {
+    icon: Brain,
+    title: "Lost Context",
+    description:
+      "Critical business knowledge vanishes when employees leave or projects end, creating a constant drain on productivity and institutional memory.",
+  },
+  {
+    icon: Search,
+    title: "Inefficient Search",
+    description:
+      "Teams waste hours searching for documents and answers, significantly slowing down decision-making and project delivery.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Scalability Issues",
+    description:
+      "As your organization grows, unstructured knowledge becomes a liability, hindering innovation and seamless collaboration.",
+  },
+];
+
+const container: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function Problem() {
-  const painPoints = [
-    {
-      icon: <FolderGit2 className="text-[#E05555] w-6 h-6" />,
-      title: "300 tabs, zero recall",
-      desc: "You saved the article. You never re-read it. Information piling up without structure.",
-      className: "md:col-span-2 md:row-span-2",
-    },
-    {
-      icon: <Clock className="text-[#F0A04B] w-6 h-6" />,
-      title: "Repeated work",
-      desc: "You researched this 3 months ago. Now you're doing it again.",
-      className: "md:col-span-1 md:row-span-1",
-    },
-    {
-      icon: <FileWarning className="text-[#F0A04B] w-6 h-6" />,
-      title: "Unindexed = invisible",
-      desc: "Your best insights are buried inside raw PDFs and unorganized folders.",
-      className: "md:col-span-1 md:row-span-1",
-    },
-    {
-      icon: <DatabaseZap className="text-[#E05555] w-6 h-6" />,
-      title: "AI memory reset",
-      desc: "Every AI session starts from zero. No context, no compounding knowledge base.",
-      className: "md:col-span-1 md:row-span-1",
-    },
-    {
-      icon: <SearchX className="text-[#F0A04B] w-6 h-6" />,
-      title: "Knowledge silos",
-      desc: "New team member? It takes months to onboard because knowledge lives in people, not systems.",
-      className: "md:col-span-2 md:row-span-1",
-    },
-  ];
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="problem" className="py-24 bg-[#111118] relative overflow-hidden">
-      {/* Decorative background element */}
-      <div className="absolute top-10 left-10 text-[15rem] leading-none font-cormorant font-bold text-[rgba(242,240,236,0.02)] pointer-events-none select-none z-0">
-        01
-      </div>
+    <section
+      id="problem"
+      ref={ref}
+      className="section-padding"
+      style={{
+        background: "var(--bg-secondary)",
+        position: "relative",
+      }}
+    >
+      {/* Top divider */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "1px",
+          background: "var(--border-subtle)",
+        }}
+      />
 
-      <div className="container relative z-10 mx-auto px-6 max-w-[1200px]">
-        <div className="max-w-2xl mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="font-cormorant text-4xl sm:text-5xl text-[#F2F0EC] mb-6"
+      <div className="container-main">
+        {/* Section header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          style={{ marginBottom: "var(--space-12)" }}
+        >
+          <span className="section-label">Problem</span>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: 600,
+              color: "var(--text-primary)",
+              marginBottom: "var(--space-4)",
+            }}
           >
-            Your knowledge is leaking. <br/>
-            <span className="text-[#9B9690] italic font-light">Every day.</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg font-dm-sans text-[#9B9690] leading-relaxed"
+            The Hidden Cost of Knowledge Loss
+          </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "1.05rem",
+              color: "var(--text-secondary)",
+              maxWidth: "540px",
+            }}
           >
-            Most professionals spend 30–40% of their time searching for information they&apos;ve already encountered. Documents pile up. AI chats reset. Knowledge walks out the door when someone leaves. <br/><br/>
-            <strong className="text-[#F2F0EC] font-normal">The problem isn&apos;t that you don&apos;t have information. The problem is it&apos;s not structured, connected, or queryable.</strong>
-          </motion.p>
-        </div>
+            Most professionals spend 30–40% of their time searching for
+            information they&apos;ve already encountered.
+          </p>
+        </motion.div>
 
-        {/* Bento Grid layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-3 gap-5 auto-rows-[200px]">
-          {painPoints.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`bg-[#16161E] rounded-2xl p-8 border border-[rgba(242,240,236,0.08)] hover:border-[#F0A04B]/30 hover:bg-[#1A1A25] transition-all duration-300 flex flex-col justify-between group ${item.className}`}
-            >
-              <div className="mb-4">
-                <div className="w-12 h-12 rounded-xl bg-[#1C1C26] flex items-center justify-center border border-[rgba(242,240,236,0.05)] mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {item.icon}
+        {/* Bento grid of pain points */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate={isInView ? "show" : "hidden"}
+          className="grid"
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "var(--space-6)",
+          }}
+        >
+          {painPoints.map((point, i) => {
+            const Icon = point.icon;
+            return (
+              <motion.div
+                key={i}
+                variants={item}
+                className="card-bento"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "var(--space-4)",
+                }}
+              >
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: "var(--radius-md)",
+                    background: "var(--brand-gold-bg)",
+                    border: "1px solid rgba(201,168,76,0.15)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Icon size={22} style={{ color: "var(--brand-gold)" }} />
                 </div>
-                <h3 className="text-xl font-dm-sans font-medium text-[#F2F0EC] mb-2">{item.title}</h3>
-              </div>
-              <p className="text-sm font-dm-sans text-[#9B9690]">{item.desc}</p>
-            </motion.div>
-          ))}
-        </div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "1.35rem",
+                    fontWeight: 600,
+                    color: "var(--text-primary)",
+                    margin: 0,
+                  }}
+                >
+                  {point.title}
+                </h3>
+                <p
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.9rem",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.65,
+                    margin: 0,
+                  }}
+                >
+                  {point.description}
+                </p>
+              </motion.div>
+            );
+          })}
+        </motion.div>
       </div>
     </section>
   );
