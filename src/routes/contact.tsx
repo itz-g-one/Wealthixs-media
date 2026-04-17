@@ -26,6 +26,7 @@ export const Route = createFileRoute("/contact")({
 const leadSchema = z.object({
   name: z.string().trim().min(1, "Your name, please.").max(100, "Keep it under 100 chars."),
   email: z.string().trim().email("That doesn't look like an email.").max(255),
+  contact_method: z.string().trim().max(150).optional().or(z.literal("")),
   company: z.string().trim().max(150).optional().or(z.literal("")),
   knowledge_size: z.string().max(50).optional().or(z.literal("")),
   message: z.string().trim().min(10, "Tell us a bit more (10 chars min).").max(2000, "Keep it under 2000 chars."),
@@ -45,6 +46,7 @@ function ContactPage() {
     const raw = {
       name: String(fd.get("name") ?? ""),
       email: String(fd.get("email") ?? ""),
+      contact_method: String(fd.get("contact_method") ?? ""),
       company: String(fd.get("company") ?? ""),
       knowledge_size: String(fd.get("knowledge_size") ?? ""),
       message: String(fd.get("message") ?? ""),
@@ -64,6 +66,7 @@ function ContactPage() {
     const { error } = await supabase.from("leads").insert({
       name: parsed.data.name,
       email: parsed.data.email,
+      contact_method: parsed.data.contact_method || null,
       company: parsed.data.company || null,
       knowledge_size: parsed.data.knowledge_size || null,
       message: parsed.data.message,
@@ -75,8 +78,32 @@ function ContactPage() {
       return;
     }
 
+    try {
+      await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: import.meta.env.VITE_WEB3FORMS_KEY || "YOUR_ACCESS_KEY_HERE",
+          subject: `New Lead: ${parsed.data.name}`,
+          from_name: "Wealthixs Forms",
+          to: "welathixs2007@gmail.com",
+          name: parsed.data.name,
+          email: parsed.data.email,
+          contact_method: parsed.data.contact_method || "N/A",
+          company: parsed.data.company || "N/A",
+          knowledge_size: parsed.data.knowledge_size || "N/A",
+          message: parsed.data.message,
+        }),
+      });
+    } catch (err) {
+      console.error("Web3Forms error:", err);
+    }
+
     setDone(true);
-    toast.success("Got it! We'll be in touch within 24 hours.");
+    toast.success("Got it! We will contact you surely via your preferred method.");
   }
 
   return (
@@ -125,8 +152,8 @@ function ContactPage() {
                 <p className="font-hand text-3xl text-ink">message received ✺</p>
                 <h2 className="mt-3 font-display text-3xl">Talk soon.</h2>
                 <p className="mt-3 text-sm text-muted-foreground">
-                  We read every message personally. Expect a reply within 24 hours
-                  with a calendar link.
+                  We've received your submission. Our team reads every message
+                  personally, and we will surely contact you soon via your preferred method.
                 </p>
               </div>
             ) : (
@@ -147,8 +174,12 @@ function ContactPage() {
                   <Field label="Email" name="email" type="email" placeholder="ada@lab.org" required error={errors.email} />
                 </div>
 
-                <div className="mt-5 grid gap-5 sm:grid-cols-[1.4fr_1fr]">
+                <div className="mt-5 grid gap-5 sm:grid-cols-2">
                   <Field label="Company / project" name="company" placeholder="(optional)" error={errors.company} />
+                  <Field label="Where should we contact you?" name="contact_method" placeholder="Email, WhatsApp, Discord..." error={errors.contact_method} />
+                </div>
+
+                <div className="mt-5">
                   <div>
                     <label className="mb-1.5 block font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
                       Team size
