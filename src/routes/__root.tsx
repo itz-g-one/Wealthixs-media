@@ -69,8 +69,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
-        <Analytics />
         <Scripts />
+        <Analytics />
       </body>
     </html>
   );
