@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg-primary: #0A0A0F;
+  --color-bg-secondary: #111118;
+  --color-bg-card: #16161E;
+  --color-bg-elevated: #1C1C26;
+
+  --color-brand-gold: #C9A84C;
+  --color-brand-gold-muted: #8B6E2E;
+  --color-brand-amber: #E8C96A;
+
+  --color-text-primary: #F2F0EC;
+  --color-text-secondary: #9B9690;
+  --color-text-muted: #5C5A56;
+  --color-text-inverse: #0A0A0F;
+
+  --color-success: #4CAF7D;
+  --color-warning: #F0A04B;
+  --color-error: #E05555;
+  --color-info: #5B8DEF;
+
+  --color-border-subtle: rgba(242, 240, 236, 0.08);
+  --color-border-default: rgba(242, 240, 236, 0.14);
+  --color-border-strong: rgba(201, 168, 76, 0.30);
+  
+  --font-heading: var(--font-cormorant);
+  --font-body: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+:root {
+  --background: #0A0A0F;
+  --foreground: #F2F0EC;
+
+  --gradient-hero: linear-gradient(135deg, #0A0A0F 0%, #12101A 50%, #0D0D15 100%);
+  --gradient-gold: linear-gradient(135deg, #C9A84C 0%, #E8C96A 100%);
+  --gradient-card: linear-gradient(135deg, #16161E 0%, #1A1A25 100%);
+  --gradient-glow: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.12) 0%, transparent 70%);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.reveal-delay-1 { animation-delay: 0.1s; }
+.reveal-delay-2 { animation-delay: 0.2s; }
+.reveal-delay-3 { animation-delay: 0.3s; }
+
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+}
+.btn-primary-pulse { animation: goldPulse 2.5s ease-in-out infinite; }
+
+/* Components */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem; /* space-6 */
+}
